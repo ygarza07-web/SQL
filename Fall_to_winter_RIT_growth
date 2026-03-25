@@ -1,0 +1,50 @@
+CREATE TABLE student_scores (
+    student_first_name TEXT,
+    grade INTEGER,
+    subject TEXT,
+    course TEXT,
+    fall_rit_score REAL,
+    fall_rapid_guessing_pct REAL,
+    winter_rit_score REAL,
+    winter_rapid_guessing_pct REAL,
+    rit_growth REAL
+);
+
+INSERT INTO student_scores
+(student_first_name, grade, subject, course, fall_rit_score, fall_rapid_guessing_pct, winter_rit_score, winter_rapid_guessing_pct, rit_growth)
+VALUES
+('Isaiah', 3, 'Science', 'Science K-12', 186, 0, 196, 0, 10),
+('Julian', 3, 'Science', 'Science K-12', 185, 8, 202, 0, 17),
+('Angel', 5, 'Science', 'Science K-12', 213, 0, 210, 0, -3),
+('Jose', 2, 'Science', 'Science K-12', 154, 30, 160, 5, 6),
+('Zoe', 2, 'Science', 'Science K-12', 162, 2, 171, 5, 9),
+('Harold', 5, 'Science', 'Science K-12', 214, 0, 222, 0, 8),
+('Jesse', 5, 'Science', 'Science K-12', 210, 0, 218, 0, 8),
+('Skylette', 4, 'Science', 'Science K-12', 198, 0, 199, 0, 1),
+('Sling', 4, 'Science', 'Science K-12', 169, 0, 189, 0, 20),
+('Allison', 3, 'Science', 'Science K-12', 172, 0, 164, 0, -8);
+
+-- I calculated average growth from fall to winter
+SELECT grade,
+       AVG(rit_growth)AS avg_growth
+FROM student_scores
+GROUP BY grade;
+-- I placed scores in range
+SELECT student_first_name,
+       grade,
+       fall_rit_score,
+       winter_rit_score,
+       rit_growth
+FROM student_scores
+WHERE winter_rit_score < 190
+   OR rit_growth <= 0;
+   
+   SELECT student_first_name,
+       grade,
+       rit_growth,
+       CASE
+           WHEN rit_growth >= 6 THEN 'high growth'
+           WHEN rit_growth >= 1 THEN 'Some Growth'
+           ELSE 'Low or Negative Growth'
+       END AS growth_category
+FROM student_scores;
